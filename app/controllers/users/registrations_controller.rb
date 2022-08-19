@@ -20,12 +20,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def create_input
+    binding.pry
     @user = User.new(session["devise.regist_data"]["user"])
     @input = Input.new(input_params)
-     unless @input.valid?
+    @list = @input.lists.build
+     unless @list.valid?
        render :new_input and return
      end
-    @user.build_input(@input.attributes)
+    
+    @user.build_input(@list.attributes) 
     @user.save
     session["devise.regist_data"]["user"].clear
     sign_in(:user, @user)

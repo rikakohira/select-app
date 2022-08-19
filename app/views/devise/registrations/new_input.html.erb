@@ -3,10 +3,24 @@
 <%= form_for @input  do |f| %>
   <%= render "devise/shared/error_messages", resource: @input  %>
 
+  <select>
+	<option value="">選択してください</option>
+   <% List.where(code: 100..199).each do |list| %>
+     <option><%= list.code_name %></option>
+   <% end %>
+  </select>
+
   <div class="field">
     <%= f.label "資産残高" %><br />
     <%= f.text_field :shisan_balance %>
   </div>
+
+   <select>
+	<option value="">選択してください</option>
+   <% List.where(code: 200..299).each do |list| %>
+     <option><%= list.code_name %></option>
+   <% end %>
+  </select>
 
   <div class="field">
     <%= f.label "負債残高" %><br />

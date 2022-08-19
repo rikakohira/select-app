@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_19_084136) do
+ActiveRecord::Schema.define(version: 2022_08_19_093310) do
+
+  create_table "input_lists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "input_id", null: false
+    t.bigint "list_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["input_id"], name: "index_input_lists_on_input_id"
+    t.index ["list_id"], name: "index_input_lists_on_list_id"
+  end
 
   create_table "inputs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "shisan_balance", null: false
@@ -19,6 +28,15 @@ ActiveRecord::Schema.define(version: 2022_08_19_084136) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_inputs_on_user_id"
+  end
+
+  create_table "lists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "group", null: false
+    t.integer "code", null: false
+    t.string "code_name", null: false
+    t.string "list_memo"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -36,5 +54,7 @@ ActiveRecord::Schema.define(version: 2022_08_19_084136) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "input_lists", "inputs"
+  add_foreign_key "input_lists", "lists"
   add_foreign_key "inputs", "users"
 end
