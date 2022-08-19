@@ -1,0 +1,21 @@
+<h2>家計簿を始める前に教えてください</h2>
+
+<%= form_for @information  do |f| %>
+  <%= render "devise/shared/error_messages", resource: @information  %>
+
+  <div class="field">
+    <%= f.label "資産残高" %><br />
+    <%= f.text_field :shisan_balance %>
+  </div>
+
+  <div class="field">
+    <%= f.label "負債残高" %><br />
+    <%= f.text_field :fusai_balance %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
