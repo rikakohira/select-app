@@ -8,7 +8,35 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @user = User.new
   end
 
-  
+  def create
+    @user = User.new(sign_up_params)
+     unless @user.valid?
+       render :new and return
+     end
+    session["devise.regist_data"] = {user: @user.attributes}
+    session["devise.regist_data"][:user]["password"] = params[:user][:password]
+    @input = @user.build_input
+    render :new_input
+  end
+
+  def create_input
+    @user = User.new(session["devise.regist_data"]["user"])
+    @input = Input.new(input_params)
+     unless @input.valid?
+       render :new_input and return
+     end
+    @user.build_input(@input.attributes)
+    @user.save
+    session["devise.regist_data"]["user"].clear
+    sign_in(:user, @user)
+    redirect_to root_path
+  end
+ 
+  private
+ 
+  def input_params
+    params.require(:input).permit(:shisan_balance, :fusai_balance)
+  end
  
 
   # GET /resource/sign_up

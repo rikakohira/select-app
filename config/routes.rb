@@ -3,8 +3,8 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   devise_scope :user do
-    get 'informations', to: 'users/registrations#new_information'
-    post 'informations', to: 'users/registrations#create_information'
+    get 'inputs', to: 'users/registrations#new_input'
+    post 'inputs', to: 'users/registrations#create_input'
   end
 
   root to: 'tests#index'

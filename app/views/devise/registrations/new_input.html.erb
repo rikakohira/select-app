@@ -1,7 +1,7 @@
 <h2>家計簿を始める前に教えてください</h2>
 
-<%= form_for @information  do |f| %>
-  <%= render "devise/shared/error_messages", resource: @information  %>
+<%= form_for @input  do |f| %>
+  <%= render "devise/shared/error_messages", resource: @input  %>
 
   <div class="field">
     <%= f.label "資産残高" %><br />
@@ -14,7 +14,7 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "登録" %>
   </div>
 <% end %>
 
