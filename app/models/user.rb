@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validates :category_id, numericality: { other_than: 1, message: "can't be blank"}
   
   has_one :input
+  has_one :address
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :age

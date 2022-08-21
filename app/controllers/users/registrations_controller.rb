@@ -20,26 +20,41 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def create_input
+  @user = User.new(session["devise.regist_data"]["user"])
+  @input = Input.new(input_params)
+   unless @input.valid?
+     render :new_input and return
+   end
+   @user.build_input(@input.attributes)
+   @user.save
+   session["devise.regist_data"] = {user: @user.attributes}
+   @address = @user.build_address
+   render :new_address
+  end
+
+  def create_address
     binding.pry
     @user = User.new(session["devise.regist_data"]["user"])
-    @input = Input.new(input_params)
-    @list = @input.lists.build
-     unless @list.valid?
-       render :new_input and return
+    @address = Address.new(address_params)
+     unless @address.valid?
+       render :new_address and return
      end
-    
-    @user.build_input(@list.attributes) 
+    @user.build_address(@address.attributes)
     @user.save
     session["devise.regist_data"]["user"].clear
     sign_in(:user, @user)
-    redirect_to root_path
   end
  
-  private
- 
-  def input_params
-    params.require(:input).permit(:shisan_balance, :fusai_balance)
-  end
+
+private
+
+def input_params
+  params.require(:input).permit(:shisan_balance, :fusai_balance)
+end
+
+def address_params
+  params.require(:address).permit(:postal_code, :address)
+end
  
 
   # GET /resource/sign_up
